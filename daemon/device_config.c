@@ -64,6 +64,22 @@ device_config_new(const char *path)
 		}
 	}
 	ASSERT(cfg);
+	// check cfg here as its ensured to be loaded
+	//#ifdef CC_MODE
+	//	/* TODO:
+	//	 * - enforce CC compatible configuration
+	//	 */
+	//
+	//	if (	(cfg->mdm_node) || (cfg->mdm_service) ||
+	//			(cfg->telephony_uuid) || (cfg->should_led_blink) ||
+	//			(cfg->c0os) || (cfg->locally_signed_images) ||
+	//			(cfg->hostedmode) || (cfg->signed_configs))
+	//	{
+	//		WARN("Device config uses options that are prohibited in CC Mode!");
+	//		return NULL;
+	//	}
+	//
+	//#endif
 
 	device_config_t *config = mem_new0(device_config_t, 1);
 	config->file = file;
