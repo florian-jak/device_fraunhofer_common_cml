@@ -41,6 +41,13 @@ struct device_config {
 device_config_t *
 device_config_new(const char *path)
 {
+
+#ifdef CC_MODE
+	/* TODO: 
+	 * - enforce CC compatible configuration
+	 */
+#endif
+	
 	char *file = NULL;
 	DeviceConfig *cfg = NULL;
 	if (!path) {

@@ -109,6 +109,14 @@ guestos_new_internal(guestos_config_t *cfg, const char *basepath)
 	os->cert_file = guestos_get_cert_file_new(os->dir);
 	os->cfg = cfg;
 	os->downloading = false;
+
+#ifdef CC_MODE
+	/* TODO: reject if non-CC guestos_config options are set 
+	 * also, if non-CC mount types are configured
+	 */
+	// guestos_config_free(cfg);
+	// return NULL;
+#endif
 	return os;
 }
 
