@@ -721,9 +721,33 @@ control_check_command(control_t *control, const ControllerToDaemon *msg)
 {
 
 #ifdef CC_MODE
-	/* filter all unused comamand codes using a whitelist; generate a clientside .proto
+	/* filter all unused command codes using a whitelist; generate a clientside .proto
 	 * which only includes allowed messsages
 	 */
+	if ((msg->command == CONTROLLER_TO_DAEMON__COMMAND__LIST_GUESTOS_CONFIGS) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__LIST_CONTAINERS) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__GET_CONTAINER_STATUS) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__GET_CONTAINER_CONFIG) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__PUSH_GUESTOS_CONFIG) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__RELOAD_CONTAINERS) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__CREATE_CONTAINER) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__REMOVE_CONTAINER) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__REGISTER_NEWCA) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__REBOOT_DEVICE) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__SET_PROVISIONED) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__PULL_DEVICE_CSR) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__PUSH_DEVICE_CERT) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__CONTAINER_START) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__CONTAINER_STOP) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__CONTAINER_LIST_IFACES) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__CONTAINER_UPDATE_CONFIG) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__CONTAINER_CHANGE_TOKEN_PIN) ||
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__CONTAINER_CMLD_HANDLES_PIN)) {
+		TRACE("Received command %d is valid in CC mode", msg->command);
+		return true;
+	}
+	return false;
+	
 #endif
 
 	if (!control->privileged) {
