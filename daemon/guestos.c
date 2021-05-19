@@ -114,6 +114,23 @@ guestos_new_internal(guestos_config_t *cfg, const char *basepath)
 	/* TODO: reject if non-CC guestos_config options are set 
 	 * also, if non-CC mount types are configured
 	 */
+
+	// check features in config for invalid setting
+	if (	(cfg->feature_phone) ||	(cfg->feature_bluetooth) ||
+			(cfg->feature_wifi) ||	(cfg->feature_mobile_data) ||	
+			(cfg->feature_sensors) ||	(cfg->feature_phone) ||
+			(cfg->feature_audio) ||	(cfg->feature_bg_booting) ||
+			(cfg->feature_vpn) ||	(cfg->feature_devtmpfs) ||
+			(cfg->feature_install_guest))
+	) {
+		WARN("GuestOS Config enables prohibited features!");
+		guestos_config_free(cfg);
+		return NULL;
+	}
+
+	// check if non-CC mount types are configured 
+	// TODO: check mount types
+
 	// guestos_config_free(cfg);
 	// return NULL;
 #endif
