@@ -745,6 +745,7 @@ control_check_command(control_t *control, const ControllerToDaemon *msg)
 		TRACE("Received command %d is invalid in CC mode", msg->command);
 		return false;
 	}
+	
 #endif
 
 	if (!control->privileged) {
@@ -1258,6 +1259,9 @@ control_handle_message(control_t *control, const ControllerToDaemon *msg, int fd
 		    (container_state == CONTAINER_STATE_REBOOTING) ||
 		    (container_state == CONTAINER_STATE_STARTING)) {
 			WARN("Container is already running or in the process of starting up!");
+			audit_log_event(container_get_uuid(container), FSA, CMLD, CONTAINER_MGMT,
+					"container-start-already-running",
+					uuid_string(container_get_uuid(container)), 0);
 			res = control_send_message(CONTROL_RESPONSE_CONTAINER_START_EEXIST, fd);
 			break;
 		}
