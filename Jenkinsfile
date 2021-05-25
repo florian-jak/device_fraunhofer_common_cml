@@ -109,6 +109,7 @@ pipeline {
                     echo "INHERIT += \\\"own-mirrors\\\"" >> conf/local.conf
                     echo "BB_GENERATE_MIRROR_TARBALLS = \\\"1\\\"" >> conf/local.conf
 
+                    bitbake -f -c do_cleanall trustx-cml
                     bitbake trustx-cml-initramfs multiconfig:container:trustx-core
                     bitbake trustx-cml
                 '''
@@ -117,13 +118,21 @@ pipeline {
             post {
                 success {
                     sh '''
-                    xz -T 0 -f out-yocto/tmp/deploy/images/**/trustme_image/trustmeimage.img
+                    xz -T 0 -f out-yocto/tmp/deploy/images/**/trustme_image/trustmeimage.img --keep
                     '''
 
                     archiveArtifacts artifacts: 'out-yocto/tmp/deploy/images/**/trustme_image/trustmeimage.img.xz', fingerprint: true
                 }
             }
 
+        }
+
+        stage('Functional Test Development Image') {
+            steps {
+                 sh '''
+                     bash ${WORKSPACE}/trustme/cml/scripts/ci/VM-container-tests.sh --dir ${WORKSPACE} --ssh 2229 --kill
+                '''
+            }
         }
 
         stage('Production Image') {
