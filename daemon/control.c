@@ -728,7 +728,7 @@ control_check_command(control_t *control, const ControllerToDaemon *msg)
 	/* filter all unused command codes using a whitelist; generate a clientside .proto
 	 * which only includes allowed messsages
 	 */
-	if !((msg->command == CONTROLLER_TO_DAEMON__COMMAND__LIST_GUESTOS_CONFIGS) ||
+	if (!((msg->command == CONTROLLER_TO_DAEMON__COMMAND__LIST_GUESTOS_CONFIGS) ||
 	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__LIST_CONTAINERS) ||
 	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__GET_CONTAINER_STATUS) ||
 	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__GET_CONTAINER_CONFIG) ||
@@ -746,13 +746,13 @@ control_check_command(control_t *control, const ControllerToDaemon *msg)
 	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__CONTAINER_LIST_IFACES) ||
 	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__CONTAINER_UPDATE_CONFIG) ||
 	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__CONTAINER_CHANGE_TOKEN_PIN) ||
-	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__CONTAINER_CMLD_HANDLES_PIN)) {
+	    (msg->command == CONTROLLER_TO_DAEMON__COMMAND__CONTAINER_CMLD_HANDLES_PIN))) 
+	{
 		TRACE("Received command %d is valid in CC mode", msg->command);
 		return false;
-	}
-
-	
+	}	
 #endif
+
 
 	if (!control->privileged) {
 		// Device is in unprivileged mode, only allow subset of commands
