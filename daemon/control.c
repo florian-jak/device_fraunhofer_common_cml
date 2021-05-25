@@ -56,7 +56,7 @@
 #include <google/protobuf-c/protobuf-c-text.h>
 
 //TODO: remove here!!!!!!
-#define CC_MODE
+//#define CC_MODE
 
 
 // maximum no. of connections waiting to be accepted on the listening socket
