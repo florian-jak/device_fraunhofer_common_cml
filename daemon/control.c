@@ -57,6 +57,8 @@
 
 //TODO: remove here!!!!!!
 #define CC_MODE
+#undef LOGF_LOG_MIN_PRIO
+#define LOGF_LOG_MIN_PRIO LOGF_PRIO_TRACE
 
 
 // maximum no. of connections waiting to be accepted on the listening socket
